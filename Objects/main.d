@@ -30,3 +30,8 @@
 .\objects\main.o: .\Library\misc.h
 .\objects\main.o: .\Hardware\OLED.h
 .\objects\main.o: .\Hardware\OLED_Data.h
+.\objects\main.o: .\Hardware\DS18B20.h
+.\objects\main.o: .\System\My_I2C.h
+.\objects\main.o: .\Hardware\MAX30102.h
+.\objects\main.o: .\Hardware\MPU6050.h
+.\objects\main.o: .\System\Delay.h

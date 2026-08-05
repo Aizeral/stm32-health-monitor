@@ -654,6 +654,36 @@
           <GroupName>Hardware</GroupName>
           <Files>
             <File>
+              <FileName>DS18B20.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\DS18B20.c</FilePath>
+            </File>
+            <File>
+              <FileName>DS18B20.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\DS18B20.h</FilePath>
+            </File>
+            <File>
+              <FileName>MAX30102.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\MAX30102.c</FilePath>
+            </File>
+            <File>
+              <FileName>MAX30102.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\MAX30102.h</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\Hardware\MPU6050.c</FilePath>
+            </File>
+            <File>
+              <FileName>MPU6050.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\Hardware\MPU6050.h</FilePath>
+            </File>
+            <File>
               <FileName>OLED.c</FileName>
               <FileType>1</FileType>
               <FilePath>.\Hardware\OLED.c</FilePath>
@@ -687,6 +717,16 @@
               <FileName>Delay.h</FileName>
               <FileType>5</FileType>
               <FilePath>.\System\Delay.h</FilePath>
+            </File>
+            <File>
+              <FileName>My_I2C.c</FileName>
+              <FileType>1</FileType>
+              <FilePath>.\System\My_I2C.c</FilePath>
+            </File>
+            <File>
+              <FileName>My_I2C.h</FileName>
+              <FileType>5</FileType>
+              <FilePath>.\System\My_I2C.h</FilePath>
             </File>
           </Files>
         </Group>

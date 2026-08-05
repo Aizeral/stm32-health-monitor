@@ -68,6 +68,12 @@ virtualFolder:
       folders: []
     - name: Hardware
       files:
+        - path: Hardware/DS18B20.c
+        - path: Hardware/DS18B20.h
+        - path: Hardware/MAX30102.c
+        - path: Hardware/MAX30102.h
+        - path: Hardware/MPU6050.c
+        - path: Hardware/MPU6050.h
         - path: Hardware/OLED.c
         - path: Hardware/OLED.h
         - path: Hardware/OLED_Data.c
@@ -77,6 +83,8 @@ virtualFolder:
       files:
         - path: System/Delay.c
         - path: System/Delay.h
+        - path: System/My_I2C.c
+        - path: System/My_I2C.h
       folders: []
     - name: User
       files:
@@ -94,6 +102,7 @@ targets:
     cppPreprocessAttrs:
       defineList:
         - USE_STDPERIPH_DRIVER
+        - STM32F10X_MD
       incList:
         - Start
         - User
@@ -220,4 +229,14 @@ targets:
         otherCmds: ""
         proType: 1
         speed: 8000
-    uploader: JLink
+      STLink:
+        address: "0x8000000"
+        bin: ""
+        elFile: None
+        optionBytes: .eide/target 1.st.option.bytes.ini
+        otherCmds: ""
+        proType: SWD
+        resetMode: default
+        runAfterProgram: true
+        speed: 4000
+    uploader: STLink
