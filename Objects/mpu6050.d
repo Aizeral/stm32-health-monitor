@@ -30,3 +30,4 @@
 .\objects\mpu6050.o: .\Library\misc.h
 .\objects\mpu6050.o: .\System\My_I2C.h
 .\objects\mpu6050.o: Hardware\MPU6050.h
+.\objects\mpu6050.o: .\System\Delay.h

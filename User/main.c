@@ -6,8 +6,8 @@
 #include "MPU6050.h"
 #include "Delay.h"
 
-#define MAX_BRIGHTNESS 255
-#define INTERRUPT_REG 0X00
+#define MAX_BRIGHTNESS      255
+#define INTERRUPT_REG       0X00
 
 /* MAX30102数据缓冲区 */
 uint32_t aun_ir_buffer[500];
@@ -24,7 +24,11 @@ int32_t n_brightness;
 float f_temp;
 uint8_t temp[6];
 
-uint8_t	id;
+int16_t init_ax, init_ay, init_az;
+float init_a;
+int16_t new_ax, new_ay, new_az;
+float new_a;
+float diff;
 
 int main()
 {
@@ -34,20 +38,21 @@ int main()
 	OLED_Init();
 	MPU6050_Init();
 
+    MPU6050_GetAccelData(&init_ax, &init_ay, &init_az);
+	init_a = init_ax * init_ax + init_ay * init_ay + init_az * init_az;
+
 	OLED_Clear();
 
 	un_min=0x3FFFF;
 	un_max=0;
 
+    /*显示静态文字*/
 	OLED_ShowString(0, 0,  "心率:", OLED_8X16);
-    OLED_ShowString(96, 0, "BPM", OLED_8X16);
+    OLED_ShowString(72, 0, "BPM", OLED_8X16);
     OLED_ShowString(0, 16,  "血氧:", OLED_8X16);
-    OLED_ShowChar(80, 16, '%', OLED_8X16);
-	
-	id = MAX30102_ReadReg(MAX30102_PART_ID);
-	
-	OLED_ShowHexNum(0, 32, id, 2, OLED_8X16); 
-	
+    OLED_ShowChar(64, 16, '%', OLED_8X16);
+    OLED_ShowString(0, 32, "温度:", OLED_8X16);
+    OLED_ShowString(0, 48, "状态:", OLED_8X16);
 	OLED_Update();
 
 	for (i = 0; i < n_ir_buffer_length; i++)
@@ -114,7 +119,7 @@ int main()
         maxim_heart_rate_and_oxygen_saturation(aun_ir_buffer, n_ir_buffer_length,
             aun_red_buffer, &n_spo2, &ch_spo2_valid, &n_heart_rate, &ch_hr_valid);
 
-        if (ch_hr_valid == 1 && n_heart_rate < 120)
+        if (ch_hr_valid == 1 && n_heart_rate < 210 && n_heart_rate > 40)
         {
             dis_hr = n_heart_rate;
             dis_spo2 = n_spo2;
@@ -126,7 +131,36 @@ int main()
         }
 		/* ====== 显示心率血氧 ====== */
         OLED_ShowNum(48, 0, dis_hr, 3, OLED_8X16);
-        OLED_ShowNum(48, 16, dis_spo2, 3, OLED_8X16);
-		OLED_Update();
+        OLED_ShowNum(48, 16, dis_spo2, 2, OLED_8X16);
+
+        if(DS18B20_GetTemp())
+        {
+            OLED_ShowFloatNum(48, 32, DS18B20_GetTemp(), 2, 2, OLED_8X16);
+        }
+        else
+        {
+            OLED_ShowFloatNum(48, 32, 0, 2, 2, OLED_8X16);
+        }
+
+        MPU6050_GetAccelData(&new_ax, &new_ay, &new_az);
+		new_a = new_ax * new_ax + new_ay * new_ay + new_az * new_az;
+		
+		diff = new_a - init_a;
+		if (diff < 0)
+		{
+			diff = -diff;
+		}
+		
+        /*模拟摔倒，晃动芯片视作摔倒*/
+        if(diff > (2048 * 2048))
+        {
+            OLED_ShowString(48, 48, "摔倒", OLED_8X16);
+        }
+        else
+        {
+            OLED_ShowString(48, 48, "正常", OLED_8X16);
+        }
+
+        OLED_Update();
     }
 }
